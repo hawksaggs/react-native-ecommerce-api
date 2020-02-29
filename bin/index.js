@@ -3,30 +3,28 @@
 /**
  * Module dependencies.
  */
-import app from '../app';
+import loadApp from '../app';
 import debug from 'debug';
 import http from 'http';
+import express from 'express';
+import getContainer from '../container';
 
-/**
- * Get port from environment and store in Express.
- */
-
-var port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
-
-/**
- * Create HTTP server.
- */
-
-var server = http.createServer(app);
-
-/**
- * Listen on provided port, on all network interfaces.
- */
-
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+getContainer()
+  .then(container => {
+    console.log(container);
+    const app = express();
+    loadApp(app, { container }).then(app => {
+      var port = normalizePort(process.env.PORT || '3000');
+      app.set('port', port);
+      var server = http.createServer(app);
+      server.listen(port);
+      // server.on('error', onError);
+      // server.on('listening', onListening);
+    });
+  })
+  .catch(err => {
+    console.log(err);
+  });
 
 /**
  * Normalize a port into a number, string, or false.
@@ -57,9 +55,7 @@ function onError(error) {
     throw error;
   }
 
-  var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+  var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
@@ -80,10 +76,8 @@ function onError(error) {
  * Event listener for HTTP server "listening" event.
  */
 
-function onListening() {
+function onListening(server) {
   var addr = server.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
+  var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }

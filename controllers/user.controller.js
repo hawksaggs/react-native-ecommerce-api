@@ -1,22 +1,26 @@
-import * as UserService from '../services/user.service';
+// import * as UserService from '../services/user.service';
 
-module.exports = {
-    createUser: async (req, res) => {
-        const user = await UserService.createUser(req.body);
-        return res.json(user);
-    },
-    updateUser: (req, res) => {
+export default class UserController {
+  constructor(opts) {
+    this.userService = opts.userService;
+  }
 
-    },
-    deleteUser: (req, res) => {
+  async createUser(req, res) {
+    const user = await this.userService.createUser(req.body);
+    return res.json(user);
+  }
 
-    },
-    getUserById: async (req, res) => {
-        const user = await UserService.getUserById(req.params.userId);
-        return res.json(user);
-    },
-    getUsers: async (req, res) => {
-        const users = await UserService.getUsers();
-        return res.json(users);
-    }
+  async updateUser(req, res) {}
+
+  async deleteUser(req, res) {}
+
+  async getUserById(req, res) {
+    const user = await this.userService.getUserById(req.params.userId);
+    return res.json(user);
+  }
+
+  async getUsers(req, res) {
+    const users = await this.userService.getUsers();
+    return res.json(users);
+  }
 }

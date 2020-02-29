@@ -1,7 +1,10 @@
-import productRoutes from './products';
-import userRoutes from './users';
+import productRoutes from './product.router';
+import userRoutes from './user.router';
+import loginRoutes from './login.router';
 
-module.exports = [
-  productRoutes,
-  userRoutes
-];
+export default function index(router, { container }) {
+  productRoutes(router, { container });
+  userRoutes(router, { container });
+  loginRoutes(router, { container });
+  return router;
+}
