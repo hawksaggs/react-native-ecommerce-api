@@ -20,6 +20,15 @@ const loadApp = async (app, { container }) => {
   app.use(middlewareUtils.checkToken);
   const routeIndex = indexRouter(router, { container });
   app.use('/', routeIndex);
+  app.use(function(err, req, res, next) {
+    // console.log(err);
+    // console.error(err);
+    console.log(err);
+    console.log(res.statusCode);
+    console.log(err.message); 
+    return res.json({ message: err.message })
+    next(err);
+  });
 
   return app;
 };

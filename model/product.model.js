@@ -38,8 +38,8 @@ const schema = new Schema(
   }
 );
 
-class Product {}
+// class Product {}
 
-schema.loadClass(Product);
+// schema.loadClass(Product);
 
 module.exports = mongoose.model('Product', schema);

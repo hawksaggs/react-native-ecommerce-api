@@ -1,5 +1,3 @@
-// import * as ProductService from '../services/product.service';
-
 export default class ProductController {
   constructor(opts) {
     this.productService = opts.productService;

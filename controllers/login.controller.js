@@ -1,9 +1,8 @@
-// import LoginService from '../services/login.service';
-
 export default class LoginController {
   constructor(opts) {
-    this.loginService = opts.loginService;
+    this.loginService = opts.container.resolve('loginService');
   }
+
   async login(req, res) {
     try {
       const token = await this.loginService.loginUser(req.body);
